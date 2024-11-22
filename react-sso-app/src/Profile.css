@@ -1,0 +1,78 @@
+/* UserInfo.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 10;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    color: #333;
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .user-info p {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    margin: 10px 0; /* Adding margin between buttons */
+    width: 100%; /* Make buttons fill the width of their container */
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  .buttons {
+    margin-top: 20px;
+  }
+  
+  .token-container {
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .token-value {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #cbf0e9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    word-wrap: break-word;
+    overflow: auto;
+    white-space: pre-wrap; /* Ensures long text breaks into multiple lines */
+  }
+  
+  .logout-button {
+    background-color: #dc3545;
+  }
+  
+  .logout-button:hover {
+    background-color: #c82333;
+  }
+  

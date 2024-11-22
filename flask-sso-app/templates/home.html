@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask App</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #4CAF50;
+        }
+
+        /* Container for login/logout content */
+        .container {
+            width: 60%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        .container p {
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 0;
+            width: 100%;
+            background-color: #007bff; /* Blue color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .button.logout {
+            background-color: #dc3545; /* Red color */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .profile-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-logout-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Flask App</h1>
+
+    <div class="container">
+        {% if oidc.user_loggedin %}
+            <p>You are logged in as {{ oidc.user_getinfo(['preferred_username'])['preferred_username'] }}.</p>
+            <a href="{{ url_for('profile') }}" class="button">Go to Profile</a>
+            <a href="{{ url_for('logout_sso') }}" class="button logout">Logout</a>
+        {% else %}
+            <p>Please login to see more.</p>
+            <a href="{{ url_for('oidc_auth.login') }}" class="button">Login</a>
+        {% endif %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .profile-info {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            width: 60%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .profile-info p {
+            font-size: 1.1em;
+            color: #333;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            width: 100%;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+        }
+
+        .button.logout {
+            background-color: #dc3545;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .token {;
+            margin-bottom: 10px;
+            background-color: #cbf0e9;
+            padding: 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+        #token {
+            display: none;
+        }
+    </style>
+
+    <div class="profile-info">
+        <p><strong>Username:</strong> {{ info['preferred_username'] }}</p>
+        <p><strong>Email:</strong> {{ info['email'] }}</p>
+        <p><strong>Roles:</strong> {{ info['roles'] }}</p>
+        <p><strong>Groups:</strong> {{ info['groups'] }}</p>
+        
+        {% if token_expiry %}
+            <p><strong>Token Expiry:</strong> <span id="token-expiry">{{ token_expiry | timestamp_to_date }}</span></p>
+        {% else %}
+            <p><strong>Token Expiry:</strong> Not Available</p>
+        {% endif %}
+
+        <!-- Button to show the access token -->
+        <button class="button" onclick="toggleToken()">Show Access Token</button>
+        <div id="token">
+            <p>Access Token:</p>
+            <div class='token' id='accesstoken'>{{ access_token }}</div>
+        </div>
+
+        <!-- Button to refresh the token -->
+        <button class="button" onclick="refreshToken()">Refresh Token</button>
+
+
+        <a href="{{ url_for('logout_sso') }}">
+            <button class="button logout">Logout</button>
+        </a>
+    </div>
+
+    <script>
+        // Toggle visibility of the token
+        function toggleToken() {
+            var tokenDiv = document.getElementById("token");
+            if (tokenDiv.style.display === "none" || tokenDiv.style.display === "") {
+                tokenDiv.style.display = "block";
+            } else {
+                tokenDiv.style.display = "none";
+            }
+        }
+
+
+        function refreshToken() {
+            fetch('/refresh_token')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error refreshing token');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response and update the token expiry display
+                    if (data.token_expiry) {
+                        // alert("Token refreshed successfully!");
+                        const tokenExpiryElement = document.getElementById('token-expiry');
+                        tokenExpiryElement.textContent = data.token_expiry;
+
+                        const tokenElement = document.getElementById('accesstoken');
+                        tokenElement.textContent = data.access_token;
+
+
+                    } else {
+                        alert("Failed to get token expiry.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error refreshing token:', error);
+                    alert('Error refreshing token');
+                });
+        }
+        
+    </script>
+</body>
+</html>
